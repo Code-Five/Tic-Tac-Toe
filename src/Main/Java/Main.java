@@ -1,124 +1,119 @@
 package Main.Java;
+
+import Main.Java.CheckWin;
 import java.util.Objects;
 import java.util.Random;
 import java.util.Scanner;
+
 public class Main {
-<<<<<<< HEAD
+
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
         System.out.println("Welcome to Tic Tac Toe");
         System.out.println("Rules:");
-        System.out.println("There are 9 boxes to pick from.If you match all three boxes,you win ");
+        System.out.println("There are 9 boxes to pick from. If you match all three boxes, you win.");
         System.out.println("Your default shape is X");
 
-        //ARRAY OF BOXES
-        String[] userBox = new String[5];
-        String[] cmpBox=new String[5];
+        int rounds = 3; // Number of rounds
 
-        //random
-        Random random = new Random();
+        for (int round = 1; round <= rounds; round++) {
+            System.out.println("\nRound " + round + ":");
 
+            String[] userBox = new String[3];
+            String[] cmpBox = new String[3];
+            Random random = new Random();
 
-        System.out.println("\n");
-        System.out.println("Round 1:");
+            for (int move = 1; move <= 6; move++) {
+                if (move % 2 == 1) {
+                    // User's turn
+                    displayBoard(userBox, cmpBox);
+                    int userChoice;
+                    do {
+                        userChoice = getUserMove(input);
+                    } while (userChoice < 1 || userChoice > 9 || isOccupied(userChoice, userBox, cmpBox));
+                    userBox[(move - 1) / 2] = String.valueOf(userChoice);
+                } else {
+                    // Computer's turn
+                    displayBoard(userBox, cmpBox);
+                    int cmpChoice;
+                    do {
+                        cmpChoice = getComputerMove(random, userBox, cmpBox);
+                    } while (isOccupied(cmpChoice, userBox, cmpBox));
+                    cmpBox[(move - 2) / 2] = String.valueOf(cmpChoice);
+                }
 
-        System.out.println("Pick a box:");
-        String userChoice=input.nextLine();
-        userBox[0]=userChoice;
-
-        System.out.println("COMPUTER TURN");
-        int cmpChoice1 = random.nextInt(9) + 1;
-        System.out.println("Computer choice is: " + cmpChoice1);
-
-        cmpBox[1] = String.valueOf(cmpChoice1);
-
-
-        String continueFlag = "";
-
-        for (int i = 0; i < cmpBox.length; i++) {
-
-            if (Objects.equals(cmpBox[i], String.valueOf(cmpChoice1))) {
-
-                continueFlag = "false";
-                break;
-            }
-            else{
-                continueFlag="true";
-            }
-
-        }
-
-
-        if(continueFlag.equals("true")){
-
-
-            System.out.println("\n");
-            System.out.println("Round 2:");
-
-
-            System.out.println("Pick a box:");
-            String userChoice2=input.nextLine();
-
-            System.out.println("COMPUTER TURN");
-            System.out.println("\t");
-            System.out.println("Computer choice is:");
-
-            System.out.println("\n");
-            System.out.println("Round 3:");
-
-            System.out.println("Pick a box:");
-            String userChoice3=input.nextLine();
-
-            System.out.println("COMPUTER TURN");
-            System.out.println("\t");
-            System.out.println("Computer choice is:");
-
-            CheckWin win=new CheckWin();
-            boolean winAnswer=win.checkWin(userBox);
-            if(winAnswer){
-                System.out.println("You won");
-            }
-
-
-            boolean wincmp=win.checkWin(userBox);
-            if(wincmp){
-                System.out.println("Computer won");
+                if (move % 3 == 0) {
+                    // Check for a win after three moves
+                    boolean userWon = checkForWin(userBox);
+                    boolean cmpWon = checkForWin(cmpBox);
+                    if (userWon || cmpWon) {
+                        if (userWon) {
+                            System.out.println("You won this round!");
+                        } else {
+                            System.out.println("Computer won this round!");
+                        }
+                        break; // End the round
+                    } else if (move == 6) {
+                        System.out.println("It's a draw this round!");
+                    }
+                }
             }
         }
-        else{
-            System.out.println("Pick another valid box:");
-            String userChoice2=input.nextLine();
+    }
 
-            System.out.println("COMPUTER TURN");
-            System.out.println("\t");
-            System.out.println("Computer choice is:");
-
-            System.out.println("\n");
-            System.out.println("Round 3:");
-
-            System.out.println("Pick a box:");
-            String userChoice3=input.nextLine();
-
-            System.out.println("COMPUTER TURN");
-            System.out.println("\t");
-            System.out.println("Computer choice is:");
-
-            CheckWin win=new CheckWin();
-            boolean winAnswer=win.checkWin(userBox);
-            if(winAnswer){
-                System.out.println("You won");
+    // Rest of your code remains the same
+    private static void displayBoard(String[] userBox, String[] cmpBox) {
+        for (int i = 1; i <= 9; i++) {
+            String value = " ";
+            if (isOccupied(i, userBox, cmpBox)) {
+                value = isOccupied(i, userBox, null) ? "X" : "O";
             }
-
-
-            boolean wincmp=win.checkWin(userBox);
-            if(wincmp){
-                System.out.println("Computer won");
+            System.out.print(" " + value + " ");
+            if (i % 3 != 0) {
+                System.out.print("||");
+            } else {
+                System.out.println();
+                if (i != 9) {
+                    System.out.println("===========");
+                }
             }
-
         }
+    }
 
+    private static int getUserMove(Scanner input) {
+        System.out.println("Pick a box from 1-9:");
+        return input.nextInt();
+    }
 
+    private static int getComputerMove(Random random, String[] userBox, String[] cmpBox) {
+        int cmpChoice;
+        do {
+            cmpChoice = random.nextInt(9) + 1;
+        } while (isOccupied(cmpChoice, userBox, cmpBox));
+        return cmpChoice;
+    }
 
+    private static boolean isOccupied(int choice, String[] userBox, String[] cmpBox) {
+        if (userBox != null) {
+            for (String box : userBox) {
+                if (box != null && Integer.parseInt(box) == choice) {
+                    return true;
+                }
+            }
+        }
+        if (cmpBox != null) {
+            for (String box : cmpBox) {
+                if (box != null && Integer.parseInt(box) == choice) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
+    private static boolean checkForWin(String[] box) {
+        // Implement your win-checking logic here
+        CheckWin win = new CheckWin();
+        return win.checkWin(box);
     }
 }
