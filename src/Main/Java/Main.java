@@ -3,6 +3,7 @@ import java.util.Objects;
 import java.util.Random;
 import java.util.Scanner;
 public class Main {
+<<<<<<< HEAD
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
         System.out.println("Welcome to Tic Tac Toe");
@@ -72,10 +73,17 @@ public class Main {
             System.out.println("\t");
             System.out.println("Computer choice is:");
 
-            //add function to check
+            CheckWin win=new CheckWin();
+            boolean winAnswer=win.checkWin(userBox);
+            if(winAnswer){
+                System.out.println("You won");
+            }
 
-            //1. check for computer
-            //2. check for user
+
+            boolean wincmp=win.checkWin(userBox);
+            if(wincmp){
+                System.out.println("Computer won");
+            }
         }
         else{
             System.out.println("Pick another valid box:");
@@ -95,10 +103,17 @@ public class Main {
             System.out.println("\t");
             System.out.println("Computer choice is:");
 
-            //add function to check
+            CheckWin win=new CheckWin();
+            boolean winAnswer=win.checkWin(userBox);
+            if(winAnswer){
+                System.out.println("You won");
+            }
 
-            //1. check for computer
-            //2. check for user
+
+            boolean wincmp=win.checkWin(userBox);
+            if(wincmp){
+                System.out.println("Computer won");
+            }
 
         }
 
