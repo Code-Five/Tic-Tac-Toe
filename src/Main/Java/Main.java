@@ -10,8 +10,10 @@ public class Main {
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
         System.out.println("Welcome to Tic Tac Toe");
-        System.out.println("Rules:");
+        System.out.println("The Rules Are:");
+        System.out.println("The game has 3 rounds");
         System.out.println("There are 9 boxes to pick from. If you match all three boxes, you win.");
+        
         System.out.println("Your default shape is X");
 
         int rounds = 3; // Number of rounds
@@ -27,6 +29,7 @@ public class Main {
                 if (move % 2 == 1) {
                     // User's turn
                     displayBoard(userBox, cmpBox);
+                    System.out.println("\n");
                     int userChoice;
                     do {
                         userChoice = getUserMove(input);
@@ -34,6 +37,8 @@ public class Main {
                     userBox[(move - 1) / 2] = String.valueOf(userChoice);
                 } else {
                     // Computer's turn
+                    System.out.prinln("\n");
+                    System.out.println("Computer's turn");
                     displayBoard(userBox, cmpBox);
                     int cmpChoice;
                     do {
@@ -81,7 +86,7 @@ public class Main {
     }
 
     private static int getUserMove(Scanner input) {
-        System.out.println("Pick a box from 1-9:");
+        System.out.println("Pick a box Position from 1-9:");
         return input.nextInt();
     }
 
