@@ -9,7 +9,7 @@ public class TestCode {
     @Test
     void testWin(){
         CheckWIn checker=new CheckWin();
-        String[] board={"X,"Y,"X"};
+        String[] board={"X,"X","X"};
         assertTrue(checker.checkWin(board));
 
     }
